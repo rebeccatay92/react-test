@@ -1,19 +1,19 @@
 import React, {Component} from 'react'
 import DisplayedCounter from './DisplayedCounter'
 import DisplayedName from './DisplayedName'
+import Enemy from './Enemy'
 
 class Counter extends Component {
   constructor (props) {
     super()
     this.state = {
       number: props.num,
-      name: 'Show name',
-      namesArr: []
+      keyword: 'Search keyword',
+      enemiesArr: ['The Hound', 'Cersei', 'Sansa']
     }
   }
 
   increaseCounter (e) {
-    // console.log("increase counter", e)
     this.setState({
       number: this.state.number + 1
     })
@@ -30,7 +30,7 @@ class Counter extends Component {
     // } else {
     //   this.setState({ name: 'Show name' })
     // }
-    this.setState(e.target.value ? { name: e.target.value } : { name: 'Show name' })
+    this.setState(e.target.value ? { keyword: e.target.value } : { keyword: 'Search keyword' })
   }
 
   updateList (e) {
@@ -42,13 +42,13 @@ class Counter extends Component {
   }
 
   render () {
-    let allNames = this.state.namesArr.map((name, index) => <li key={index}>{name}</li>)
+    let allEnemies = this.state.enemiesArr.map((name, index) => <Enemy key={ index } name={ name }/>)
 
     return (
       <div>
-        <DisplayedCounter number={this.state.number}/>
+        <DisplayedCounter number={ this.state.number }/>
         <button onClick={(e) => this.increaseCounter(e)}>Upvote</button>
-        <DisplayedName name={this.state.name} />
+        <DisplayedName keyword={ this.state.keyword } />
 
         <div>
           <label>
@@ -58,12 +58,29 @@ class Counter extends Component {
           <button onClick={(e) => this.updateList(e)}>Add name</button>
         </div>
 
-        <h2>List of names</h2>
+        <h2>Arya's Kill List</h2>
         <ul>
-          {allNames}
+          { allEnemies }
         </ul>
       </div>
     )
+  }
+
+  // only run the api after components have been initialized / rendered
+  componentDidMount () {
+    const url = `https://api.got.show/api/characters`
+
+    fetch(url)
+      .then((response) => {
+        console.log(response)
+        return response.json()
+      }) // processes the promise object into json
+      .then((data) => {
+        console.log('data', data)
+      }) // reads the process json
+      .catch((err) => {
+        console.log(err)
+      }) // catch error
   }
 }
 

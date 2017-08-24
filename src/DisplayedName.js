@@ -2,7 +2,7 @@ import React from 'react'
 
 const DisplayedName = (props) => (
   <h1>
-    {props.name}
+    { props.keyword }
   </h1>
 )
 

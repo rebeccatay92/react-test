@@ -3,7 +3,7 @@ import React from 'react'
 
 const DisplayedCounter = (props) => (
   <h1>
-    Counter: {props.number}
+    Counter: { props.number }
   </h1>
 )
 
