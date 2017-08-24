@@ -1,4 +1,6 @@
 import React, {Component} from 'react'
+import DisplayedCounter from './DisplayedCounter'
+import DisplayedName from './DisplayedName'
 
 class Counter extends Component {
   constructor (props) {
@@ -9,12 +11,14 @@ class Counter extends Component {
       namesArr: []
     }
   }
+
   increaseCounter (e) {
     // console.log("increase counter", e)
     this.setState({
       number: this.state.number + 1
     })
   }
+
   showName (e) {
     // if (e.target.value) {
     //   let typedName = e.target.value
@@ -28,6 +32,7 @@ class Counter extends Component {
     // }
     this.setState(e.target.value ? { name: e.target.value } : { name: 'Show name' })
   }
+
   updateList (e) {
     console.log(e)
     this.setState({
@@ -41,17 +46,19 @@ class Counter extends Component {
 
     return (
       <div>
-        <h1>Counter: {this.state.number}</h1>
-        <h2>{this.state.name}</h2>
+        <DisplayedCounter number={this.state.number}/>
+        <button onClick={(e) => this.increaseCounter(e)}>Upvote</button>
+        <DisplayedName name={this.state.name} />
+
         <div>
           <label>
             Type your name:
             <input type='text' onChange={(e) => this.showName(e)} />
           </label>
+          <button onClick={(e) => this.updateList(e)}>Add name</button>
         </div>
-        <button onClick={(e) => this.increaseCounter(e)}>Upvote</button>
-        <button onClick={(e) => this.updateList(e)}>Add name</button>
-        <h2>Doggo's favorite Hoomans</h2>
+
+        <h2>List of names</h2>
         <ul>
           {allNames}
         </ul>
