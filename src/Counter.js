@@ -5,7 +5,8 @@ class Counter extends Component {
     super()
     this.state = {
       number: props.num,
-      name: 'Show name'
+      name: 'Show name',
+      namesArr: []
     }
   }
   increaseCounter (e) {
@@ -27,8 +28,17 @@ class Counter extends Component {
     // }
     this.setState(e.target.value ? { name: e.target.value } : { name: 'Show name' })
   }
+  updateList (e) {
+    console.log(e)
+    this.setState({
+      namesArr: this.state.namesArr.concat(this.state.name)
+    })
+    //dont use push. push is mutative and props/states/react must be immutable
+  }
 
   render () {
+    let allNames = this.state.namesArr.map((name, index) => <li key={index}>{name}</li>)
+
     return (
       <div>
         <h1>Counter: {this.state.number}</h1>
@@ -40,7 +50,11 @@ class Counter extends Component {
           </label>
         </div>
         <button onClick={(e) => this.increaseCounter(e)}>Upvote</button>
-        <button>Add name</button>
+        <button onClick={(e) => this.updateList(e)}>Add name</button>
+        <h2>Doggo's favorite Hoomans</h2>
+        <ul>
+          {allNames}
+        </ul>
       </div>
     )
   }
